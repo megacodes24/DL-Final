@@ -198,7 +198,7 @@ T4 (Turing, compute capability 7.5).
 ## AI tooling disclosure
 
 LLM assistants were used during development for coding help and
-debugging — structuring the verifier-prompt builder, debugging
+debugging such as structuring the verifier-prompt builder, debugging
 chat-template label masking (the `-100` mask on prompt tokens), and
 drafting docstrings. All generated code was reviewed, tested, and
 modified before being committed. Experimental design, hyperparameter
