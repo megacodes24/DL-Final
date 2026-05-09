@@ -14,7 +14,7 @@ asked yes-or-no, and at inference time the option with the largest
 
 | Metric | Value |
 |---|---|
-| Public leaderboard score | **0.90019** |
+| Leaderboard score | **0.90019** |
 | Full-validation accuracy (n = 1,048) | 0.8817 |
 | Quick-eval accuracy (n = 254) | 0.8740 |
 | Best epoch | 4 of 4 |
@@ -207,4 +207,4 @@ two-tier validation strategy were performed independently.
 
 ## Authors
 
-[INSERT AUTHOR NAME(S)] — DL Spring 2026, New York University.
+Meghana — DL Spring 2026, New York University.
