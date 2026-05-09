@@ -1,0 +1,16 @@
+# Core deep learning stack
+torch>=2.0
+transformers>=4.45.0      # AutoModelForImageTextToText needs >= 4.45
+peft>=0.10.0              # LoraConfig with task_type="CAUSAL_LM"
+accelerate>=0.30.0        # accelerate launch + Accelerator with grad-accum
+
+# Image processing (used implicitly by the SmolVLM processor)
+Pillow>=10.0
+
+# Data, metrics, numerics
+numpy>=1.24
+pandas>=2.0
+scikit-learn>=1.3         # only used for accuracy_score
+
+# Plotting (only needed to regenerate the report figures)
+matplotlib>=3.7
