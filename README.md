@@ -130,7 +130,7 @@ accelerate launch --mixed_precision=fp16 train_single_gpu.py \
     --eval-batch-size 1
 ```
 
-> ⚠️ The script is named `train_single_gpu.py` but if `accelerate` sees
+> The script is named `train_single_gpu.py` but if `accelerate` sees
 > more than one CUDA device it will pick all of them up. On Kaggle's
 > two-T4 box the effective batch size becomes
 > `per_device_batch × grad_accum × num_gpus = 1 × 8 × 2 = 16`. To force
@@ -188,7 +188,7 @@ largest `logit(yes) − logit(no)` at the last position.
 | Epochs | 4 |
 | Per-device batch | 1 |
 | Gradient accumulation | 8 |
-| GPUs (auto-detected) | 2 |
+| GPUs (auto-detected) | 1 |
 | Effective batch | 16 |
 | Learning rate | 2 × 10⁻⁴ |
 | LR schedule | Linear w/ warmup |
@@ -207,7 +207,7 @@ largest `logit(yes) − logit(no)` at the last position.
 
 ## Hardware
 
-2× NVIDIA Tesla T4 (Kaggle), 16 GB VRAM each. fp16 with gradient
+NVIDIA Tesla T4 (Kaggle), 16 GB VRAM each. fp16 with gradient
 checkpointing was the only configuration that fit a SmolVLM-500M LoRA
 training run in 16 GB at `train_batch_size=1`. bf16 is unavailable on
 T4 (Turing, compute capability 7.5).
