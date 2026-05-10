@@ -12,15 +12,45 @@ asked yes-or-no, and at inference time the option with the largest
 
 ## Results
 
-| Metric | Value |
-|---|---|
-| Leaderboard score | **0.90019** |
-| Full-validation accuracy (n = 1,048) | 0.8817 |
-| Quick-eval accuracy (n = 254) | 0.8740 |
-| Best epoch | 4 of 4 |
-| Trainable parameters | 4,161,536 (0.81% of 511M) |
+| Configuration | Full-val acc. | Best epoch |
+|---|---:|---:|
+| **Full method** (HNM + class balance) | **0.8817** | 4 |
+| Baseline (no HNM, no balance) | 0.8635 | 3 |
+| Δ from data-pipeline changes | **+1.82 pp** | |
 
-Per-epoch quick-eval: 0.7323 → 0.8701 → 0.8622 → 0.8740.
+**Public leaderboard score: 0.90019** (full method).
+
+Per-epoch quick-eval for the full method: 0.7323 → 0.8701 → 0.8622 → 0.8740.
+Trainable parameters: 4,161,536 (0.81% of 511M).
+
+## Ablations
+
+We ran **one controlled re-run** in addition to the main configuration:
+the same SmolVLM–LoRA setup with identical hyperparameters except the
+data pipeline. The baseline keeps every distractor as a negative (no
+Jaccard top-2 filter) and skips class balancing. With everything else
+held constant, this reaches only 0.8635 on full validation (best epoch
+3) versus 0.8817 in the full method (best epoch 4). The data-pipeline
+changes are therefore worth **+1.82 percentage points**.
+
+The full method also reaches the baseline's peak quick-eval accuracy
+(0.8701) one epoch earlier — at epoch 2 instead of epoch 3.
+
+Other ablation dimensions (LoRA rank, image edge, lecture cap, etc.)
+are discussed in the report based on the trajectory of the full run
+rather than separate re-runs, due to GPU-quota constraints.
+
+## Other directions explored
+
+In parallel with this approach we explored a different architecture: a
+`pszemraj/roberta-base-unified-mcqa` text-only multiple-choice anchor
+combined with a `Qwen2.5-VL-7B-Instruct` self-consistency router on
+visual-heavy rows. Routing was guarded by per-skill validation gain
+(≥ 0.08), minimum skill sample count, a Qwen self-consistency agreement
+threshold, and a cap on the number of test-row changes; when the guards
+failed, the router fell through to the anchor's predictions. The
+SmolVLM verifier-prompt method described here remained our final
+leaderboard submission.
 
 ## Approach
 
@@ -198,13 +228,13 @@ T4 (Turing, compute capability 7.5).
 ## AI tooling disclosure
 
 LLM assistants were used during development for coding help and
-debugging such as structuring the verifier-prompt builder, debugging
+debugging — structuring the verifier-prompt builder, debugging
 chat-template label masking (the `-100` mask on prompt tokens), and
 drafting docstrings. All generated code was reviewed, tested, and
 modified before being committed. Experimental design, hyperparameter
 choices, the training run, the hard-negative difficulty score, and the
 two-tier validation strategy were performed independently.
 
-## Authors
+## Author
 
-Meghana — DL Spring 2026, New York University.
+Meghana
